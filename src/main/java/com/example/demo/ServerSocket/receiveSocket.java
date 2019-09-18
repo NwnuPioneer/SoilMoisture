@@ -20,6 +20,8 @@ public class receiveSocket extends Thread{
         try{
             System.out.println("receive线程正常启动");
             OutputStream  os=socket.getOutputStream();
+            //***************接受代码******************
+            //*********************************
             System.out.println("接受完毕");
             //os.toString();
         } catch (IOException e) {
