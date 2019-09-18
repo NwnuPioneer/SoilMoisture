@@ -24,6 +24,7 @@ public class HandlerThread implements Callable<String> {
     //字节转十六进制
     private String bytes(byte[] bytes, int begin, int end) {
 //字节转十进制
+        System.out.println("方法bytes执行");
         StringBuilder hexBuilder = new StringBuilder(2 * (end - begin));
         for(int i=begin ;i < end; i++) {
             hexBuilder.append(Character.forDigit((bytes[i] & 0xF0) >> 4, 16)); // 转化高四位
@@ -39,12 +40,13 @@ public class HandlerThread implements Callable<String> {
     public String call() throws Exception{
         try {
             // 读取客户端数据并存储
+            System.out.println("方法call执行");
             DataInputStream dis = new DataInputStream(socket.getInputStream());
             byte[] bytes = new byte[1024]; // 假设发送的字节数不超过 1024 个
             int size = dis.read(bytes); // size 是读取到的字节数
+
             hex = bytes(bytes, 0, size);
 
-//            sensorInsert(sensor_type,hex);
             dis.close();
         } catch (Exception e) {
             System.out.println("服务器 run 异常: " + e.getMessage());
