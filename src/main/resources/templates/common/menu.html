@@ -1,0 +1,14 @@
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="menu_dropdown bk_2">
+        <dl id="menu-admin">
+            <dt><i class="Hui-iconfont">&#xe62e;</i> <a th:href="@{toPageSensor?url=/sensor.html}" title="传感器管理">传感器管理</a></dt>
+            <dt><i class="Hui-iconfont" >&#xe6ac;</i> <a th:href="@{toPageBattery?url=/battery.html}" title="电池管理">电池管理</a></dt>
+            <dt><i class="Hui-iconfont" >&#xe6ac;</i> <a th:href="@{toPageWeather?url=/weather.html}" title="天气预报管理">天气预报管理</a></dt>
+            <dt><i class="Hui-iconfont" >&#xe6ac;</i> <a th:href="@{toAnayWeather}" title="未来天气预报">未来天气预报</a></dt>
+            <dt><i class="Hui-iconfont" >&#xe6ac;</i> <a th:href="@{toAnaySenor}" title="传感器功耗显示">传感器功耗显示</a></dt>
+            <dt><i class="Hui-iconfont" >&#xe6ac;</i> <a th:href="@{toAnayBattery}" title="电池与光照值显示">电池与光照值显示</a></dt>
+        </dl>
+    </div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>

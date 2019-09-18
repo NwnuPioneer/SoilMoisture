@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.weatherMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.dao.weather">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="city" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="cond_txt" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="tmp_max" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="tmp_min" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="wind_dir" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="wind_sc" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="hum" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="pres" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sunStartTime" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sunEndTime" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="dateTime" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="creat_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, city, cond_txt, tmp_max, tmp_min, wind_dir, wind_sc, hum, pres, sunStartTime, 
+    sunEndTime, dateTime, creat_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from weather
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--查找所有传感器数据-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from weather
+  </select>
+<!--查询数据库数量-->
+  <select id="selectTotal"  resultType="Integer">
+    select count(id) from weather
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from weather
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.dao.weather">
+    insert into weather (id, city, cond_txt, 
+      tmp_max, tmp_min, wind_dir, 
+      wind_sc, hum, pres, 
+      sunStartTime, sunEndTime, dateTime, 
+      creat_time)
+    values (#{id,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{condTxt,jdbcType=VARCHAR}, 
+      #{tmpMax,jdbcType=VARCHAR}, #{tmpMin,jdbcType=VARCHAR}, #{windDir,jdbcType=VARCHAR}, 
+      #{windSc,jdbcType=VARCHAR}, #{hum,jdbcType=VARCHAR}, #{pres,jdbcType=VARCHAR}, 
+      #{sunstarttime,jdbcType=VARCHAR}, #{sunendtime,jdbcType=VARCHAR}, #{datetime,jdbcType=VARCHAR}, 
+      #{creatTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.dao.weather">
+    insert into weather
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="condTxt != null">
+        cond_txt,
+      </if>
+      <if test="tmpMax != null">
+        tmp_max,
+      </if>
+      <if test="tmpMin != null">
+        tmp_min,
+      </if>
+      <if test="windDir != null">
+        wind_dir,
+      </if>
+      <if test="windSc != null">
+        wind_sc,
+      </if>
+      <if test="hum != null">
+        hum,
+      </if>
+      <if test="pres != null">
+        pres,
+      </if>
+      <if test="sunstarttime != null">
+        sunStartTime,
+      </if>
+      <if test="sunendtime != null">
+        sunEndTime,
+      </if>
+      <if test="datetime != null">
+        dateTime,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="condTxt != null">
+        #{condTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpMax != null">
+        #{tmpMax,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpMin != null">
+        #{tmpMin,jdbcType=VARCHAR},
+      </if>
+      <if test="windDir != null">
+        #{windDir,jdbcType=VARCHAR},
+      </if>
+      <if test="windSc != null">
+        #{windSc,jdbcType=VARCHAR},
+      </if>
+      <if test="hum != null">
+        #{hum,jdbcType=VARCHAR},
+      </if>
+      <if test="pres != null">
+        #{pres,jdbcType=VARCHAR},
+      </if>
+      <if test="sunstarttime != null">
+        #{sunstarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="sunendtime != null">
+        #{sunendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null">
+        #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.dao.weather">
+    update weather
+    <set>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="condTxt != null">
+        cond_txt = #{condTxt,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpMax != null">
+        tmp_max = #{tmpMax,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpMin != null">
+        tmp_min = #{tmpMin,jdbcType=VARCHAR},
+      </if>
+      <if test="windDir != null">
+        wind_dir = #{windDir,jdbcType=VARCHAR},
+      </if>
+      <if test="windSc != null">
+        wind_sc = #{windSc,jdbcType=VARCHAR},
+      </if>
+      <if test="hum != null">
+        hum = #{hum,jdbcType=VARCHAR},
+      </if>
+      <if test="pres != null">
+        pres = #{pres,jdbcType=VARCHAR},
+      </if>
+      <if test="sunstarttime != null">
+        sunStartTime = #{sunstarttime,jdbcType=VARCHAR},
+      </if>
+      <if test="sunendtime != null">
+        sunEndTime = #{sunendtime,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null">
+        dateTime = #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.dao.weather">
+    update weather
+    set city = #{city,jdbcType=VARCHAR},
+      cond_txt = #{condTxt,jdbcType=VARCHAR},
+      tmp_max = #{tmpMax,jdbcType=VARCHAR},
+      tmp_min = #{tmpMin,jdbcType=VARCHAR},
+      wind_dir = #{windDir,jdbcType=VARCHAR},
+      wind_sc = #{windSc,jdbcType=VARCHAR},
+      hum = #{hum,jdbcType=VARCHAR},
+      pres = #{pres,jdbcType=VARCHAR},
+      sunStartTime = #{sunstarttime,jdbcType=VARCHAR},
+      sunEndTime = #{sunendtime,jdbcType=VARCHAR},
+      dateTime = #{datetime,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

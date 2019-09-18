@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/meta.html">
+    <title>电池</title>
+</head>
+<header th:include="common/header.html"></header>
+<aside th:include="common/menu.html"></aside>
+<section class="Hui-article-box">
+    <article class="cl pd-20">
+        <div class="text-c">电池名称:
+            <!--           <input type="text" class="input-text" style="width:250px" placeholder="请输入传感器编号" id="battery_name" name="">-->
+            <select  class="select" name="rolecode" size="1" style="width:200px" >
+                <option  th:value="${sensor_type.sensorName}" th:text="${sensor_type.sensorName}" id="battery_name" ></option>
+            </select>
+            <button type="submit" class="btn btn-success" id="" name="" onclick="insert_battery()"> 添加</button>
+        </div>
+        <div class="cl pd-5 bg-1 bk-gray"> <span class="r">共有数据：<strong th:text="${batteryTotal}"></strong> 条</span> </div>
+        <div class="mt-10">
+            <table class="table table-border table-bordered table-hover table-bg">
+                <thead>
+                <tr>
+                    <th scope="col" colspan="6">电池信息</th>
+                </tr>
+                <tr class="text-c">
+                    <th width="25"><input type="checkbox" value="" name=""></th>
+                    <th width="40" style="display:none">ID</th>
+                    <th width="200">电池名称</th>
+                    <th width="200">电压值</th>
+                    <th width="300">电流值</th>
+                    <th width="300">光照值</th>
+                    <th width="70">创建时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="batteryList : ${batteryList}"class="text-c">
+                    <td><input type="checkbox" value="" name=""></td>
+                    <td th:text="${batteryList.id}" style="display:none">ID</td>
+                    <td th:text="${batteryList.batteryCode}">电池名称</td>
+                    <td th:text="${batteryList.batteryVoltagevalue}">电压值</td>
+                    <td th:text="${batteryList.batteryCurrentvalue}">电流值</td>
+                    <td th:text="${batteryList.illuminationValue}">光照值</td>
+                    <td th:text="${batteryList.creatTime}">创建时间</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </article>
+    </div>
+</section>
+
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+<script type="text/javascript" th:src="@{lib/datatables/1.10.0/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{lib/laypage/1.2/laypage.js}"></script>
+<script type="text/javascript">
+function myrefresh()
+{
+   window.location.reload();
+}
+/*电池名称*/
+function insert_battery(){
+	var battery_name = document.getElementById("battery_name").value;
+	if(battery_name!=null&&battery_name!=""){
+		$.ajax({
+           url: "/insert_battery?battery_name="+battery_name,
+           dataType: "json",  
+           type: "POST",
+        });
+        layer.msg('已添加',{icon:1,time:5000});
+		setTimeout('myrefresh()',5000); //指定1秒刷新一次
+	}
+ 	else{
+ 		layer.msg('请输入电池名称',{icon:2,time:3000});
+ 	}
+}
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

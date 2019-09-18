@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.sensorMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.dao.sensor">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="sensor_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sensor_currentValue" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sensor_voltageValue" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="creat_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sensor_code, sensor_currentValue, sensor_voltageValue, creat_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sensor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+<!--查找所有传感器数据-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sensor
+  </select>
+
+  <!--  查询数据总条数-->
+  <select id="selectByTotal"  resultType="Integer">
+    select count(id) from sensor
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sensor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.dao.sensor" keyColumn="id" keyProperty="id"  useGeneratedKeys="true" >
+    insert into sensor (id, sensor_code, sensor_currentValue,
+      sensor_voltageValue, creat_time)
+    values (#{id,jdbcType=INTEGER}, #{sensorCode,jdbcType=VARCHAR}, #{sensorCurrentvalue,jdbcType=VARCHAR},
+      #{sensorVoltagevalue,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.dao.sensor">
+    insert into sensor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sensorCode != null">
+        sensor_code,
+      </if>
+      <if test="sensorCurrentvalue != null">
+        sensor_currentValue,
+      </if>
+      <if test="sensorVoltagevalue != null">
+        sensor_voltageValue,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sensorCode != null">
+        #{sensorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorCurrentvalue != null">
+        #{sensorCurrentvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorVoltagevalue != null">
+        #{sensorVoltagevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.dao.sensor">
+    update sensor
+    <set>
+      <if test="sensorCode != null">
+        sensor_code = #{sensorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorCurrentvalue != null">
+        sensor_currentValue = #{sensorCurrentvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorVoltagevalue != null">
+        sensor_voltageValue = #{sensorVoltagevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.dao.sensor">
+    update sensor
+    set sensor_code = #{sensorCode,jdbcType=VARCHAR},
+      sensor_currentValue = #{sensorCurrentvalue,jdbcType=VARCHAR},
+      sensor_voltageValue = #{sensorVoltagevalue,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

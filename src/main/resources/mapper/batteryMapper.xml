@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.batteryMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.dao.battery">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="battery_currentValue" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="battery_voltageValue" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="illumination_value" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="creat_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="battery_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, battery_currentValue, battery_voltageValue, illumination_value, creat_time, battery_code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from battery
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+<!--查询所有-->
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from battery
+  </select>
+  <!--查询数据数量-->
+  <select id="selectTotal"  resultType="Integer">
+    select count(id) from battery
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from battery
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.dao.battery" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    insert into battery (id, battery_currentValue, battery_voltageValue, 
+      illumination_value, creat_time, battery_code
+      )
+    values (#{id,jdbcType=INTEGER}, #{batteryCurrentvalue,jdbcType=VARCHAR}, #{batteryVoltagevalue,jdbcType=VARCHAR}, 
+      #{illuminationValue,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP}, #{batteryCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.dao.battery">
+    insert into battery
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="batteryCurrentvalue != null">
+        battery_currentValue,
+      </if>
+      <if test="batteryVoltagevalue != null">
+        battery_voltageValue,
+      </if>
+      <if test="illuminationValue != null">
+        illumination_value,
+      </if>
+      <if test="creatTime != null">
+        creat_time,
+      </if>
+      <if test="batteryCode != null">
+        battery_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="batteryCurrentvalue != null">
+        #{batteryCurrentvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryVoltagevalue != null">
+        #{batteryVoltagevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="illuminationValue != null">
+        #{illuminationValue,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batteryCode != null">
+        #{batteryCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.dao.battery">
+    update battery
+    <set>
+      <if test="batteryCurrentvalue != null">
+        battery_currentValue = #{batteryCurrentvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="batteryVoltagevalue != null">
+        battery_voltageValue = #{batteryVoltagevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="illuminationValue != null">
+        illumination_value = #{illuminationValue,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batteryCode != null">
+        battery_code = #{batteryCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.dao.battery">
+    update battery
+    set battery_currentValue = #{batteryCurrentvalue,jdbcType=VARCHAR},
+      battery_voltageValue = #{batteryVoltagevalue,jdbcType=VARCHAR},
+      illumination_value = #{illuminationValue,jdbcType=VARCHAR},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      battery_code = #{batteryCode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

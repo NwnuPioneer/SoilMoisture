@@ -1,0 +1,129 @@
+﻿<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/meta.html">
+	<title>用户列表</title>
+</head>
+<body>
+<header th:include="common/header.html"></header>
+<aside th:include="common/menu.html"></aside>
+
+<section class="Hui-article-box">
+	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+		<span class="c-gray en">&gt;</span>
+		天气预报管理
+		 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a> </nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="text-c">查询城市：
+				<input type="text" class="input-text" style="width:250px" placeholder="请输入城市名称" id="city_name" name="">
+				<button type="submit" class="btn btn-success" id="insert_city" name="" onclick="insert_weather()">添加天气</button>
+			</div>
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="r">共有数据：<strong th:text="${weatherTotal}"></strong> 条</span>
+			</div>
+			<table class="table table-border table-bordered table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="9">用户列表</th>
+					</tr>
+					<tr class="text-c">
+						<th width="25"><input type="checkbox" name="" value=""></th>
+						<th width="40" style="display:none">ID</th>
+						<th width="150">城市</th>
+						<th width="90">天气</th>
+						<th width="100">最高温度</th>
+						<th width="100">最低温度</th>
+						<th width="150">风向</th>
+						<th width="100">风力</th>
+						<th width="100">相对湿度</th>
+						<th width="150">大气压强</th>
+						<th width="150">日出时间</th>
+						<th width="150">日落时间</th>
+						<th width="150">日期</th>
+						<th width="350">查询时间</th>
+						<th width="100">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="weatherList : ${weatherList}" class="text-c">
+						<td><input type="checkbox" value="1" name=""></td>
+						<td style="display:none" th:text="${weatherList.id}" th:value="${weatherList.id}" name="userID" >ID</td>
+						<td  th:text="${weatherList.city}">城市</td>
+						<td  th:text="${weatherList.condTxt}">天气情况</td>
+						<td  th:text="${weatherList.tmpMax}">最高温度</td>
+						<td  th:text="${weatherList.tmpMin}">最低温度</td>
+						<td  th:text="${weatherList.windDir}">风向</td>
+						<td  th:text="${weatherList.windSc}">风力</td>
+						<td  th:text="${weatherList.hum}">相对湿度</td>
+						<td  th:text="${weatherList.pres}">大气压强</td>
+						<td  th:text="${weatherList.sunstarttime}">日出时间</td>
+						<td  th:text="${weatherList.sunendtime}">日落时间</td>
+						<td  th:text="${weatherList.datetime}">日期</td>
+						<td  th:text="${weatherList.creatTime}">日期</td>
+						<td class="td-manage">
+						<a title="删除" href="javascript:;" th:onclick="'javascript:admin_del('+this+','+${weatherList.id}+');'" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</article>
+	</div>
+</section>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" th:src="@{/lib/My97DatePicker/4.8/WdatePicker.js}"></script>
+<script type="text/javascript" th:src="@{/lib/datatables/1.10.0/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/laypage/1.2/laypage.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+$(document).ready(function(){
+     if(location.href.indexOf("#reloaded")==0){
+        location.href=location.href+"#reloaded";
+        location.reload();
+    }
+ });
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*查询天气*/
+
+function myrefresh()
+{
+   window.location.reload();
+}
+
+function insert_weather(){
+	var city_name = document.getElementById("city_name").value;
+	if(city_name!=null&&city_name!=""){
+		$.ajax({
+           url: "/insert_weather?city_name="+city_name,
+           dataType: "json",  
+           type: "POST",
+        });
+        layer.msg('已添加',{icon:1,time:3000});
+		setTimeout('myrefresh()',3000); //指定1秒刷新一次
+	}
+	else{
+		layer.msg('请输入城市',{icon:2,time:3000});
+	}
+
+}
+/*管理员-删除*/
+function admin_del(obj,id){
+ 	$.ajax({
+           url: "/deleteweather?id="+id,
+           dataType: "json",   //返回的数据是json 格式
+           type: "GET",
+        });
+	layer.confirm('确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		$(obj).parents("tr").remove();
+		layer.msg('已删除!',{icon:1,time:1000});
+		 location.replace(location.href);
+	});
+}
+</script>
+</body>
+</html>
