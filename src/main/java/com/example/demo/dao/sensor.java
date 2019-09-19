@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 public class sensor {
@@ -13,6 +14,12 @@ public class sensor {
 
     private Date creatTime;
 
+    @Transient
+    private String sensorType;
+
+    @Transient
+    private String formatTime;
+
     public sensor(Integer id, String sensorCode, String sensorCurrentvalue, String sensorVoltagevalue, Date creatTime) {
         this.id = id;
         this.sensorCode = sensorCode;
@@ -21,6 +28,13 @@ public class sensor {
         this.creatTime = creatTime;
     }
 
+    public void setSensorType(String sensorType){this.sensorType=sensorType;}
+
+    public String getSensorType(){return sensorType;}
+
+    public void setFormatTime(String formatTime){this.formatTime=formatTime;}
+
+    public String getFormatTime(){return formatTime;}
 
     public sensor() {
         super();

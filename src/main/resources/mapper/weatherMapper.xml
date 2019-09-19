@@ -35,7 +35,7 @@
     <include refid="Base_Column_List" />
     from weather
   </select>
-<!--查询数据库数量-->
+  <!--查询数据库数量-->
   <select id="selectTotal"  resultType="Integer">
     select count(id) from weather
   </select>

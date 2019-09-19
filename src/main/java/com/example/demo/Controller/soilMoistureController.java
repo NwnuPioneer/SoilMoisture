@@ -1,45 +1,46 @@
 package com.example.demo.Controller;
 
 import com.example.demo.ServerSocket.HandlerThread;
+
 import com.example.demo.dao.battery;
 import com.example.demo.dao.sensor;
 import com.example.demo.dao.sensor_type;
+
 import com.example.demo.dao.weather;
-import com.example.demo.mapper.batteryMapper;
 import com.example.demo.mapper.sensorMapper;
 import com.example.demo.mapper.sensor_typeMapper;
+import com.example.demo.mapper.batteryMapper;
 import com.example.demo.mapper.weatherMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import static java.util.concurrent.Executors.*;
 
 @Controller
 public class soilMoistureController{
     private HandlerThread handlerThreads;
-    @Autowired
+    @Resource
     private sensorMapper sensorMapper;
-
-    @Autowired
+    @Resource
     private sensor_typeMapper sensor_typeMapper;
-
-    @Autowired
+    @Resource
     private batteryMapper batteryMapper;
-
-    @Autowired
+    @Resource
     private weatherMapper weatherMapper;
+
 
     public static final int PORT = 9092;//监听的端口号9092
 
@@ -127,7 +128,7 @@ public class soilMoistureController{
             Long illumination_valueNum = Long.parseLong(illumination_value,16);
             //数据存储
             battery battery = new battery();
-            battery.setBatteryCode(battery_type);
+            //battery.setBatteryCode(battery_type);
             battery.setBatteryCurrentvalue(String.valueOf(battery_currentValueNum));
             battery.setBatteryVoltagevalue(String.valueOf(battery_voltageValueNum));
             battery.setCreatTime(new Date());
@@ -169,12 +170,22 @@ public class soilMoistureController{
         String url  = request.getParameter("url");
         //查询数据库所有传感器的数据
         List<sensor> sensors = sensorMapper.selectAll();
-        List<sensor_type> sensor_typeList = sensor_typeMapper.selectAll();
-        sensor_typeList.remove(10);
+        //List<sensor_type> sensor_typeList = sensor_typeMapper.selectAll();
+        //sensor_typeList.remove(10);
         Integer total = sensorMapper.selectByTotal();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (sensor sensor : sensors) {
+            sensor.setFormatTime(sdf.format(sensor.getCreatTime()));
+            if(sensor.getSensorCode().equals("a")){
+                sensor.setSensorType("485类型传感器");
+            }else{
+                sensor.setSensorType("其他类型传感器");
+            }
+
+        }
         model.addAttribute("sensorTotal",total);
         model.addAttribute("sensors",sensors);
-        model.addAttribute("sensor_typeList",sensor_typeList);
+        //model.addAttribute("sensor_typeList",sensor_typeList);
         return url;
     }
 
@@ -184,11 +195,15 @@ public class soilMoistureController{
         String url  = request.getParameter("url");
         //查询数据库所有传感器的数据
         List<battery> batteryList = batteryMapper.selectAll();
-        sensor_type sensor_type= sensor_typeMapper.selectByPrimaryKey(11);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (battery battery : batteryList) {
+            battery.setFormatTime(sdf.format(battery.getCreatTime()));
+        }
+        //sensor_type sensor_type= sensor_typeMapper.selectByPrimaryKey(11);
         Integer total = batteryMapper.selectTotal();
         model.addAttribute("batteryTotal",total);
         model.addAttribute("batteryList",batteryList);
-        model.addAttribute("sensor_type",sensor_type);
+        //model.addAttribute("sensor_type",sensor_type);
         return url;
     }
 
@@ -198,9 +213,13 @@ public class soilMoistureController{
         String url  = request.getParameter("url");
         //查询数据库所有传感器的数据
         List<weather> weathers = weatherMapper.selectAll();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (weather weather : weathers) {
+            weather.setFormatTime(sdf.format(weather.getCreatTime()));
+        }
         Integer total = weatherMapper.selectTotal();
         model.addAttribute("weatherTotal",total);
-            model.addAttribute("weatherList",weathers);
+        model.addAttribute("weatherList",weathers);
         return url;
     }
 
@@ -211,7 +230,7 @@ public class soilMoistureController{
         //查询数据库所有传感器的数据
         String sensor_code = request.getParameter("sensor_name");
         String sensorData = init(sensor_code);
-        if(sensor_code!=null&sensor_typeMapper.selectByName(sensor_code)!=null){
+        if(sensor_code!=null){
             sensorInsert(sensor_code,sensorData);
         }else{
             return ;
@@ -225,7 +244,7 @@ public class soilMoistureController{
         //查询数据库所有电池的数据
         String battery_name = request.getParameter("battery_name");
         String batteryData = init(battery_name);
-        if(battery_name!=null&sensor_typeMapper.selectByName(battery_name)!=null){
+        if(battery_name!=null){
             batteryInsert(battery_name,batteryData);
         }else{
             return ;

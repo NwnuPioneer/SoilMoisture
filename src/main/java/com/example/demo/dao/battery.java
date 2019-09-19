@@ -2,6 +2,7 @@ package com.example.demo.dao;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Transient;
 import java.util.Date;
 
 public class battery {
@@ -12,20 +13,34 @@ public class battery {
 
     private String batteryVoltagevalue;
 
+    private String solarCurrentvalue;
+
+    private String solarVoltagevalue;
+
     private String illuminationValue;
+
+    private String electricityValue;
 
     private Date creatTime;
 
-    private String batteryCode;
+    @Transient
+    private String formatTime;
 
-    public battery(Integer id, String batteryCurrentvalue, String batteryVoltagevalue, String illuminationValue, Date creatTime, String batteryCode) {
+    public battery(Integer id, String batteryCurrentvalue, String batteryVoltagevalue, String solarCurrentvalue, String solarVoltagevalue, String illuminationValue, String electricityValue, Date creatTime) {
         this.id = id;
         this.batteryCurrentvalue = batteryCurrentvalue;
         this.batteryVoltagevalue = batteryVoltagevalue;
+        this.solarCurrentvalue = solarCurrentvalue;
+        this.solarVoltagevalue = solarVoltagevalue;
         this.illuminationValue = illuminationValue;
+        this.electricityValue = electricityValue;
         this.creatTime = creatTime;
-        this.batteryCode = batteryCode;
     }
+
+
+    public void setFormatTime(String formatTime){this.formatTime=formatTime;}
+
+    public String getFormatTime(){return formatTime;}
 
     public battery() {
         super();
@@ -55,6 +70,22 @@ public class battery {
         this.batteryVoltagevalue = batteryVoltagevalue == null ? null : batteryVoltagevalue.trim();
     }
 
+    public String getSolarCurrentvalue() {
+        return solarCurrentvalue;
+    }
+
+    public void setSolarCurrentvalue(String solarCurrentvalue) {
+        this.solarCurrentvalue = solarCurrentvalue == null ? null : solarCurrentvalue.trim();
+    }
+
+    public String getSolarVoltagevalue() {
+        return solarVoltagevalue;
+    }
+
+    public void setSolarVoltagevalue(String solarVoltagevalue) {
+        this.solarVoltagevalue = solarVoltagevalue == null ? null : solarVoltagevalue.trim();
+    }
+
     public String getIlluminationValue() {
         return illuminationValue;
     }
@@ -63,31 +94,19 @@ public class battery {
         this.illuminationValue = illuminationValue == null ? null : illuminationValue.trim();
     }
 
+    public String getElectricityValue() {
+        return electricityValue;
+    }
+
+    public void setElectricityValue(String electricityValue) {
+        this.electricityValue = electricityValue == null ? null : electricityValue.trim();
+    }
+
     public Date getCreatTime() {
         return creatTime;
     }
 
     public void setCreatTime(Date creatTime) {
         this.creatTime = creatTime;
-    }
-
-    public String getBatteryCode() {
-        return batteryCode;
-    }
-
-    public void setBatteryCode(String batteryCode) {
-        this.batteryCode = batteryCode == null ? null : batteryCode.trim();
-    }
-
-    @Override
-    public String toString() {
-        return "battery{" +
-                "id=" + id +
-                ", batteryCurrentvalue='" + batteryCurrentvalue + '\'' +
-                ", batteryVoltagevalue='" + batteryVoltagevalue + '\'' +
-                ", illuminationValue='" + illuminationValue + '\'' +
-                ", creatTime=" + creatTime +
-                ", batteryCode='" + batteryCode + '\'' +
-                '}';
     }
 }

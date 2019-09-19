@@ -9,13 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import com.example.demo.mapper.sensorMapper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
 
-	@Autowired
-	private sensorMapper sensorMapper;
+
+	private com.example.demo.mapper.sensorMapper sensorMapper;
 
 	@Test
 	public void contextLoads() {

@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
 @Mapper
 public interface batteryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,11 +15,11 @@ public interface batteryMapper {
 
     battery selectByPrimaryKey(Integer id);
 
-    List<battery> selectAll();
-
-    int selectTotal();
-
     int updateByPrimaryKeySelective(battery record);
 
     int updateByPrimaryKey(battery record);
+
+    int selectTotal();
+
+    List<battery> selectAll();
 }

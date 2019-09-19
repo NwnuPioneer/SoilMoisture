@@ -18,7 +18,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-<!--  根据name查找-->
+  <!--  根据name查找-->
   <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -39,7 +39,7 @@
     delete from sensor_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.dao.sensor_type" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+  <insert id="insert" parameterType="com.example.demo.dao.sensor_type">
     insert into sensor_type (id, sensor_name, sensor_code
       )
     values (#{id,jdbcType=INTEGER}, #{sensorName,jdbcType=VARCHAR}, #{sensorCode,jdbcType=VARCHAR}

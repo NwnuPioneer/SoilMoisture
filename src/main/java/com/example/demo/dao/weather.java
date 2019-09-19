@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 public class weather {
@@ -29,6 +30,9 @@ public class weather {
 
     private Date creatTime;
 
+    @Transient
+    private String formatTime;
+
     public weather(Integer id, String city, String condTxt, String tmpMax, String tmpMin, String windDir, String windSc, String hum, String pres, String sunstarttime, String sunendtime, String datetime, Date creatTime) {
         this.id = id;
         this.city = city;
@@ -44,6 +48,10 @@ public class weather {
         this.datetime = datetime;
         this.creatTime = creatTime;
     }
+
+    public void setFormatTime(String formatTime){this.formatTime=formatTime;}
+
+    public String getFormatTime(){return formatTime;}
 
     public weather() {
         super();

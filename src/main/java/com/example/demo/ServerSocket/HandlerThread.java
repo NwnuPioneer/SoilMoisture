@@ -1,15 +1,7 @@
 package com.example.demo.ServerSocket;
 
-import com.example.demo.dao.battery;
-import com.example.demo.dao.sensor;
-import com.example.demo.mapper.batteryMapper;
-import com.example.demo.mapper.sensorMapper;
-import com.example.demo.mapper.sensor_typeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.io.DataInputStream;
 import java.net.Socket;
-import java.util.Date;
 import java.util.concurrent.Callable;
 
 

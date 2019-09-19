@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.example.demo.dao.sensor">
     <constructor>
       <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="sensor_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="sensor_code" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="sensor_currentValue" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="sensor_voltageValue" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="creat_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
@@ -20,7 +20,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
 
-<!--查找所有传感器数据-->
+  <!--查找所有传感器数据-->
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -35,10 +35,10 @@
     delete from sensor
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.example.demo.dao.sensor" keyColumn="id" keyProperty="id"  useGeneratedKeys="true" >
-    insert into sensor (id, sensor_code, sensor_currentValue,
+  <insert id="insert" parameterType="com.example.demo.dao.sensor">
+    insert into sensor (id, sensor_code, sensor_currentValue, 
       sensor_voltageValue, creat_time)
-    values (#{id,jdbcType=INTEGER}, #{sensorCode,jdbcType=VARCHAR}, #{sensorCurrentvalue,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{sensorCode,jdbcType=CHAR}, #{sensorCurrentvalue,jdbcType=VARCHAR}, 
       #{sensorVoltagevalue,jdbcType=VARCHAR}, #{creatTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.demo.dao.sensor">
@@ -65,7 +65,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="sensorCode != null">
-        #{sensorCode,jdbcType=VARCHAR},
+        #{sensorCode,jdbcType=CHAR},
       </if>
       <if test="sensorCurrentvalue != null">
         #{sensorCurrentvalue,jdbcType=VARCHAR},
@@ -82,7 +82,7 @@
     update sensor
     <set>
       <if test="sensorCode != null">
-        sensor_code = #{sensorCode,jdbcType=VARCHAR},
+        sensor_code = #{sensorCode,jdbcType=CHAR},
       </if>
       <if test="sensorCurrentvalue != null">
         sensor_currentValue = #{sensorCurrentvalue,jdbcType=VARCHAR},
@@ -98,7 +98,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.demo.dao.sensor">
     update sensor
-    set sensor_code = #{sensorCode,jdbcType=VARCHAR},
+    set sensor_code = #{sensorCode,jdbcType=CHAR},
       sensor_currentValue = #{sensorCurrentvalue,jdbcType=VARCHAR},
       sensor_voltageValue = #{sensorVoltagevalue,jdbcType=VARCHAR},
       creat_time = #{creatTime,jdbcType=TIMESTAMP}
