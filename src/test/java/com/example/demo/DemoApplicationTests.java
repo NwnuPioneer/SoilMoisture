@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.example.demo.mapper.sensorMapper;
 
@@ -20,12 +21,12 @@ public class DemoApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		sensor sensor = new sensor();
+/*		sensor sensor = new sensor();
 		sensor.setSensorCode("1");
 		sensor.setSensorCurrentvalue("1");
 		sensor.setCreatTime(new Date());
 		sensor.setSensorVoltagevalue("1");
-		sensorMapper.insert(sensor);
+		sensorMapper.insert(sensor);*/
 	}
 
 }

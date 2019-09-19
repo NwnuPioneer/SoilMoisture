@@ -10,7 +10,7 @@
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页<span class="c-gray en">&gt;</span>传感器功耗显示</nav>
     <div class="Hui-article">
-        <div id="contain" style="width: 600px;height: 400px">
+        <div id="contain" style="width: auto;height: 600px">
 
         </div>
         <!--<h1>我的界面</h1>-->
@@ -24,75 +24,41 @@
 <script type="text/javascript" th:inline="javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('contain'));
+    myChart.showLoading();
+    $.ajax({
+        type : "get",
+        async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url : "/getAnaSenData",    //请求发送到
+        dataType : "json",        //返回数据形式为json
+        success : function(result) {
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: result.strTime
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                legend: {
+                    data: ['电流值', '电压值']
+                },
+                series: [{
+                    data: result.current,
+                    type: 'bar'
+                },{
+                    data: result.voltage,
+                    type: 'bar'
+                }]
+            };
 
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '折线图堆叠'
+            myChart.setOption(option);
+            myChart.hideLoading();
         },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-        },
-        grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-        },
-        toolbox: {
-            feature: {
-                saveAsImage: {}
-            }
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: ['周一','周二','周三','周四','周五','周六','周日']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                name:'邮件营销',
-                type:'line',
-                stack: '总量',
-                data:[120, 132, 101, 134, 90, 230, 210]
-            },
-            {
-                name:'联盟广告',
-                type:'line',
-                stack: '总量',
-                data:[220, 182, 191, 234, 290, 330, 310]
-            },
-            {
-                name:'视频广告',
-                type:'line',
-                stack: '总量',
-                data:[150, 232, 201, 154, 190, 330, 410]
-            },
-            {
-                name:'直接访问',
-                type:'line',
-                stack: '总量',
-                data:[320, 332, 301, 334, 390, 330, 320]
-            },
-            {
-                name:'搜索引擎',
-                type:'line',
-                stack: '总量',
-                data:[820, 932, 901, 934, 1290, 1330, 1320]
-            }
-        ]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-
-
+        error : function(errorMsg) {
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    })
 
 </script>
 </body>

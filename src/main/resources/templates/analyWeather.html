@@ -10,10 +10,8 @@
 <section class="Hui-article-box">
     <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页<span class="c-gray en">&gt;</span>未来天气预报</nav>
     <div class="Hui-article">
-        <div id="contain" style="width: 600px;height: 400px">
-
+        <div id="contain" style="width: auto;height: 600px;top: 30px;">
         </div>
-        <!--<h1>我的界面</h1>-->
     </div>
 </section>
 <!--请在下方写此页面业务相关的脚本-->
@@ -24,31 +22,105 @@
 <script type="text/javascript" th:inline="javascript">
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById('contain'));
+    myChart.showLoading();
+    $.ajax({
+        type : "get",
+        async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url : "/getAnaWeaData",    //请求发送到
+        dataType : "json",        //返回数据形式为json
+        success : function(result) {
+            option = {
+                title: {
+                    text: '堆叠区域图'
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        label: {
+                            backgroundColor: '#6a7985'
+                        }
+                    }
+                },
+                legend: {
+                    data:['最高气温','最低气温','风力','湿度','大气压强']
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : result.xData
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'最高气温',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {},
+                        data:result.htmp
+                    },
+                    {
+                        name:'最低气温',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {},
+                        data:result.ltmp
+                    },
+                    {
+                        name:'风力',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {},
+                        data:result.windSc
+                    },
+                    {
+                        name:'湿度',
+                        type:'line',
+                        stack: '总量',
+                        areaStyle: {normal: {}},
+                        data:result.hum
+                    },
+                    {
+                        name:'大气压强',
+                        type:'line',
+                        stack: '总量',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top'
+                            }
+                        },
+                        areaStyle: {normal: {}},
+                        data:result.pres
+                    }
+                ]
+            };
 
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: 'ECharts 入门示例'
+            myChart.setOption(option);
+            myChart.hideLoading();
         },
-        tooltip: {},
-        legend: {
-            data:['销量']
-        },
-        xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-
-
+        error : function(errorMsg) {
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    })
 
 </script>
 </body>
