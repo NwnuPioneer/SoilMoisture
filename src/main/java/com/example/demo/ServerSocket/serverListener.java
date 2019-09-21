@@ -1,6 +1,7 @@
 package com.example.demo.ServerSocket;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,7 +13,7 @@ import java.net.Socket;
  */
 public class serverListener extends Thread{
 
-    //public static final String IP="127.0.0.1";
+    //public static final String IP="39.96.18.144";
     public static final int PORT=9092;
 
     public void run(){

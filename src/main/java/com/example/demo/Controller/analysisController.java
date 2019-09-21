@@ -3,14 +3,9 @@ package com.example.demo.Controller;
 import com.example.demo.dao.battery;
 import com.example.demo.dao.sensor;
 import com.example.demo.dao.weather;
-import com.example.demo.mapper.batteryMapper;
-import com.example.demo.mapper.sensorMapper;
-import com.example.demo.mapper.sensor_typeMapper;
-import com.example.demo.mapper.weatherMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import sun.plugin2.util.SystemUtil;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;

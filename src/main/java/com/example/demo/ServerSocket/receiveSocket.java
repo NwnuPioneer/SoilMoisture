@@ -29,10 +29,9 @@ public class receiveSocket extends Thread{
             ExecutorService exec = newCachedThreadPool();
             HandlerThread handlerThread=new HandlerThread(socket);
             Future f = exec.submit(handlerThread);
-
             storageData storageD=new storageData(f.get().toString());
             storageD.start();//开始存储数据
-            System.out.println("接受完毕");
+            System.out.println("未存储数据输出："+f.get().toString());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
